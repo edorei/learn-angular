@@ -97,8 +97,8 @@ export class UsersComponent implements OnInit {
 
   setCurrentStyle() {
     this.currentStyles = {
-      'padding-top': this.showExtended? '0' : '40px',
-      'font-size': this.showExtended? '' : '20px'
+      'padding-top': this.showExtended ? '0' : '40px',
+      'font-size': this.showExtended ? '' : '20px'
     }
   }
 
@@ -128,21 +128,15 @@ export class UsersComponent implements OnInit {
     user.hide = !user.hide;
   }
 
-  onSubmit({value, valid}: {value: User, valid: boolean}) {
-    console.log("form submitted");
-    console.log(value);
-    console.log(valid);
+  onSubmit( {value, valid}: {value: User, valid: boolean} ) {
+    console.log( value );
     value.registered = new Date();
-    if(!valid) {
-      console.log("Invalid");
+    if ( !valid ) {
     } else {
       value.isActive = true;
       value.hide = true;
-      console.log(value);
       this.users.unshift(value);
       this.form.reset();
     }
-    event.preventDefault();
   }
-
 }
