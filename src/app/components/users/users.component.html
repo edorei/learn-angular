@@ -1,0 +1,87 @@
+<div class="card">
+  <div class="card-header">Names</div>
+  <div class="card-body">
+    <button (click)="showUserForm($event)" class="btn btn-dark mb-2">Add User</button>
+    <div class="card bg-light" *ngIf="showUserFormToggel">
+      <form #userForm = "ngForm" class="card-body" (submit)="onSubmit(userForm)">
+        <h2 class="lead">Add User</h2>
+        <div class="form-group">
+          <label for="firstName">First Name</label>
+          
+          <input 
+          [ngClass]="{'is-invalid': userFirstName.errors && userFirstName.touched}" 
+          type="text" 
+          class="form-control" 
+          id="firstName" 
+          placeholder="First Name" 
+          [(ngModel)]="user.firstName" 
+          name="firstName" 
+          autocomplete="off" #userFirstName="ngModel" required minlength="4"> 
+
+          <div class="invalid-feedback" [hidden]="!userFirstName.errors?.required">First name required</div>
+          <div class="invalid-feedback" [hidden]="!userFirstName.errors?.minlength">Minium name length is 4</div>
+        </div>
+        <div class="form-group">
+            <label for="secondName">Second Name</label>
+            <input [ngClass]="{'is-invalid': userSecondName.errors && userSecondName.touched}" type="text" class="form-control" id="secondName" placeholder="Second Name" [(ngModel)]="user.secondName" name="secondName" autocomplete="off" #userSecondName="ngModel" required minlength="4"> 
+            <div class="invalid-feedback" [hidden]="!userSecondName.errors?.required">Second name required</div>
+            <div class="invalid-feedback" [hidden]="!userSecondName.errors?.minlength">Minium name length is 4</div>
+          </div>
+       
+        <div class="form-group">
+          <label for="age">Age</label>
+          <input type="number" class="form-control" id="age" placeholder="Age" [(ngModel)]="user.age" name="age" autocomplete="off">  
+        </div>
+
+        <div class="form-group">
+          <label for="street">Street</label>
+          <input type="text" class="form-control" id="street" placeholder="Street" [(ngModel)]="user.address.street" name="street" autocomplete="off">
+        </div>
+
+        <div class="form-group">
+          <label for="city">City</label>
+          <input type="text" class="form-control" id="city" placeholder="City" name="city" [(ngModel)]="user.address.city" autocomplete="off">
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input [ngClass]="{'is-invalid': userEmail.errors && userEmail.touched}" type="email" class="form-control" id="email" placeholder="Email" [(ngModel)]="user.email" name="email" autocomplete="off" #userEmail="ngModel" required pattern="^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$"> 
+            <div class="invalid-feedback" [hidden]="!userEmail.errors?.required">Email name required</div>
+            <div class="invalid-feedback" [hidden]="!userEmail.errors?.pattern">Email is not valid</div>
+          </div>
+  
+
+        <div class="form-group">
+          <label for="state">State</label>
+          <input type="text" class="form-control" id="state" placeholder="State" [(ngModel)]="user.address.state" name="state" autocomplete="off">
+        </div>
+        <button [disabled]="!userForm.form.valid" class="btn btn-block btn-primary mb-3" >Add New User</button>
+      </form>
+    </div>
+    <ul class="list-group shadow p-3 mb-5 bg-white rounded" *ngIf="loaded && users.length > 0 else noUser">
+      <li class="list-group-item" *ngFor="let user of users" [class.bg-light]="user.isActive">
+        <div>
+          <h3>
+            <span>{{user.firstName}} {{user.lastName}}</span>
+            <small class="float-right"><button class="btn btn-dark btn-sm" (click)="user.hide = !user.hide">
+                <i [ngClass]="user.hide? 'fa fa-caret-up': 'fa fa-caret-down'"></i></button></small>
+          </h3>
+          <ul class="list-group shadow-sm p-1 mb-1 bg-white rounded" *ngIf="!user.hide">
+            <li class="list-group-item">Age : <span [textContent]="user.age"></span></li>
+            <li class="list-group-item">Street {{user.address.street}}</li>
+            <li class="list-group-item">City {{user.address.city}}</li>
+            <li class="list-group-item">State {{user.address.state}}</li>
+            <li class="list-group-item">Registered Date: {{user.registered | date:"dd/MMM/yy"}}</li>
+            <li class="list-group-item">Email {{user.email}}</li>
+          </ul>
+        </div>
+      </li>
+    </ul>
+    <ng-template #noUser>
+      <h4>No User</h4>
+    </ng-template>
+    <div *ngIf="users.length == 0">No user avilable.</div>
+    <div *ngIf="!loaded">Loading</div>
+  </div>
+  <div class="card-footer"></div>
+</div>
