@@ -1,4 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { UserService } from '../../services/user.service';
+
 import { User } from '../../models/User';
 
 @Component({
@@ -28,61 +30,18 @@ export class UsersComponent implements OnInit {
   currentClasses = {};
   currentStyles = {};
   @ViewChild('userForm') form: any;
-  
-  constructor() { }
+  data: any;
+  constructor(private userService: UserService) { }
 
   ngOnInit() {
-    this.users = [
-      {
-        firstName: 'Vinod',
-        lastName: 'Sharma',
-        age: 32,
-        address: {
-            street: '3rd',
-            city: 'Bangalore',
-            state: 'KA'
-          },
-          img: 'http://lorempixel.com/175/175/people/3',
-          isActive: true,
-          balance: 130,
-          registered: new Date(),
-          email: 'vinod@gmail.com',
-          hide: true
-      },
-      {
-          firstName: 'Ranjana',
-          lastName: 'Sharma',
-          age: 32,
-          address: {
-              street: '3rd',
-              city: 'Bangalore',
-              state: 'KA'
-          },
-          img: 'http://lorempixel.com/175/175/people/2',
-          isActive: true,
-          balance: 100,
-          registered: new Date(),
-          email: 'ranjana@gmail.com',
-          hide: true
-      },
-      {
-        firstName: 'Ishank',
-        lastName: 'Sharma',
-        age: 32,
-        address: {
-            street: '3rd',
-            city: 'Bangalore',
-            state: 'KA'
-          },
-          img: 'http://lorempixel.com/175/175/people/1',
-          isActive: true,
-          balance: 165,
-          registered: new Date(),
-          email: 'ishank@gmail.com',
-          hide: true
-      }
-        ];
-
+    this.userService.getData().subscribe(data => {
+      console.log(data);
+    });
+    //this.users = this.dataService.getUsers();
+    this.userService.getUsers().subscribe(users => {
+      this.users = users;
+      this.loaded = true;
+    });
         //this.users = [];
       //this.setCurrentClasses();
       //his.setCurrentStyle();
@@ -135,7 +94,7 @@ export class UsersComponent implements OnInit {
     } else {
       value.isActive = true;
       value.hide = true;
-      this.users.unshift(value);
+      this.userService.addUser(value);
       this.form.reset();
     }
   }
