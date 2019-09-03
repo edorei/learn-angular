@@ -1,0 +1,25 @@
+<div class="card mb-3 bg-light">
+  <div class="card-header">Post Form</div>
+  <div class="card-body">
+    <form action="">
+      <div class="form-group">
+        <label for="title">Title</label>
+        <input type="text" class="form-control" name="title" id="title" #title [(ngModel)]="currentPost.title" autocomplete="off">
+      </div>
+      <div class="form-group">
+        <label for="body">Body</label>
+        <input type="text" class="form-control" name="body" id="body" #body [(ngModel)]="currentPost.body" autocomplete="off">
+      </div>
+      <input type="hidden" name="id" [(ngModel)]="currentPost.id">
+      <button *ngIf="!isEdit" (click)="addPost(title.value, body.value)" class="btn btn-primary btn-block">
+          Add Post
+      </button>
+
+      <button *ngIf="isEdit" (click)="editPost()" class="btn btn-dark btn-block">
+        Edit Post
+      </button>
+      
+    </form>
+  </div>
+</div>
+<hr>
